@@ -6,6 +6,7 @@ import {IRebaseToken} from "src/Interfaces/IRebaseToken.sol";
 contract Vault {
     /* Error */
     error Vault_RedeemFailed();
+
     IRebaseToken private immutable i_RebaseToken;
 
     /* event */
@@ -29,7 +30,7 @@ contract Vault {
 
     function redeem(uint256 _amount) external {
         i_RebaseToken.burn(msg.sender, _amount);
-        (bool success, ) = payable(msg.sender).call{value: _amount}("");
+        (bool success,) = payable(msg.sender).call{value: _amount}("");
         if (!success) {
             revert Vault_RedeemFailed();
         }
