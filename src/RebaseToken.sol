@@ -19,7 +19,7 @@ contract RebaseToken is ERC20, Ownable, AccessControl {
         uint256 _newInterestRate
     );
 
-    uint256 private constant PRECISION_FACTOR = 1e27;
+    uint256 private constant PRECISION_FACTOR = 1e18; // using larger value cause time overflow. for example for 1e27
     bytes32 private constant MINT_BURN_ROLE = keccak256("MINT_BURN_ROLE");
     uint256 private s_interestRate = (5 * PRECISION_FACTOR) / 1e8; // s_interestRate = 5e10
     mapping(address => uint256) private s_userInterestRate;
