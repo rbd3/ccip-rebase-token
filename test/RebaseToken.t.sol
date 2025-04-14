@@ -1,5 +1,5 @@
 //SPDX-License_Identifier: MIT
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.24;
 
 import {Test, console} from "forge-std/Test.sol";
 import {RebaseToken} from "src/RebaseToken.sol";

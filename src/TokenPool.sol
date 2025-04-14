@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: MIT
-pragma solidity ^0.8.28;
+pragma solidity ^0.8.24;
 
 import {TokenPool} from "lib/ccip/contracts/src/v0.8/ccip/pools/TokenPool.sol";
 import {Pool} from "lib/ccip/contracts/src/v0.8/ccip/libraries/Pool.sol";
@@ -42,6 +42,9 @@ contract RebaseTokenPool is TokenPool {
             releaseOrMintIn.amount,
             userInterestRate
         );
-        Pool.ReleaseOrMintOutV1({destinationAmount: releaseOrMintIn.amount});
+        return
+            Pool.ReleaseOrMintOutV1({
+                destinationAmount: releaseOrMintIn.amount
+            });
     }
 }
