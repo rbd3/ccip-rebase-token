@@ -1,10 +1,12 @@
 [profile.default]
-src = "src"
-out = "out"
-libs = ["lib"]
 remappings = [
     "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
     "@ccip/=lib/ccip/",
+    "@chainlink/local/=lib/chainlink-local/",
 ]
+src = "src"
+rpc_endpoints = { sepolia_eth = "", arb-sepolia = "" }
+out = "out"
+libs = ["lib"]
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

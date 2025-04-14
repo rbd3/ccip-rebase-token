@@ -12,19 +12,15 @@ contract RebaseTokenPool is TokenPool {
         address[] memory _allowlist,
         address _rnmProxy,
         address _router
-    ) TokenPool(_token, 18, _allowlist, _rnmProxy, _router) {}
+    ) TokenPool(_token, _allowlist, _rnmProxy, _router) {}
 
     function lockOrBurn(
         Pool.LockOrBurnInV1 calldata lockOrBurnIn
     ) external returns (Pool.LockOrBurnOutV1 memory lockOrBurnOut) {
         _validateLockOrBurn(lockOrBurnIn);
-        address originalSender = abi.decode(
-            lockOrBurnIn.originalSender,
-            (address)
-        );
-        uint256 userIntererstRate = IRebaseToken(
-            address(i_token).getUserInterestRate(originalSender)
-        );
+        address originalSender = lockOrBurnIn.originalSender;
+        uint256 userIntererstRate = IRebaseToken(address(i_token))
+            .getUserInterestRate(originalSender);
         IRebaseToken(address(i_token)).burn(address(this), lockOrBurnIn.amount);
 
         lockOrBurnOut = Pool.LockOrBurnOutV1({
@@ -37,7 +33,7 @@ contract RebaseTokenPool is TokenPool {
         Pool.ReleaseOrMintInV1 calldata releaseOrMintIn
     ) external returns (Pool.ReleaseOrMintOutV1 memory) {
         _validateReleaseOrMint(releaseOrMintIn);
-        uint256 userInterestRate = abi.encode(
+        uint256 userInterestRate = abi.decode(
             releaseOrMintIn.sourcePoolData,
             (uint256)
         );
