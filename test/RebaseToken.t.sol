@@ -23,9 +23,7 @@ contract RebaseTokenTest is Test {
     }
 
     function addRewardsToVault(uint256 rewardsAmount) public {
-        (bool success, ) = payable(address(vault)).call{value: rewardsAmount}(
-            ""
-        );
+        (bool success,) = payable(address(vault)).call{value: rewardsAmount}("");
     }
 
     function testDepositLinear(uint256 amount) public {
@@ -45,11 +43,7 @@ contract RebaseTokenTest is Test {
         uint256 endBalance = rebaseToken.balanceOf(user);
         assertGt(endBalance, startBalance);
 
-        assertApproxEqAbs(
-            endBalance - middleBalance,
-            middleBalance - startBalance,
-            1
-        );
+        assertApproxEqAbs(endBalance - middleBalance, middleBalance - startBalance, 1);
         vm.stopPrank();
     }
 
@@ -68,10 +62,7 @@ contract RebaseTokenTest is Test {
         vm.stopPrank();
     }
 
-    function testRedeemAfterTimePassed(
-        uint256 depositAmount,
-        uint256 time
-    ) public {
+    function testRedeemAfterTimePassed(uint256 depositAmount, uint256 time) public {
         time = bound(time, 1000, type(uint96).max);
         depositAmount = bound(depositAmount, 1e5, type(uint96).max);
 
@@ -128,14 +119,10 @@ contract RebaseTokenTest is Test {
 
     function testCannotMintAndBurn() public {
         vm.prank(user);
-        vm.expectPartialRevert(
-            bytes4(IAccessControl.AccessControlUnauthorizedAccount.selector)
-        );
+        vm.expectPartialRevert(bytes4(IAccessControl.AccessControlUnauthorizedAccount.selector));
         rebaseToken.mint(user, 100, rebaseToken.getInterestRate());
         vm.prank(user);
-        vm.expectPartialRevert(
-            bytes4(IAccessControl.AccessControlUnauthorizedAccount.selector)
-        );
+        vm.expectPartialRevert(bytes4(IAccessControl.AccessControlUnauthorizedAccount.selector));
         rebaseToken.burn(user, 100);
     }
 
@@ -156,15 +143,9 @@ contract RebaseTokenTest is Test {
 
     function testInterestRateCanOnlyDecrease(uint256 _newInterestRate) public {
         uint256 initialInterestRate = rebaseToken.getInterestRate();
-        _newInterestRate = bound(
-            _newInterestRate,
-            initialInterestRate + 1,
-            type(uint96).max
-        );
+        _newInterestRate = bound(_newInterestRate, initialInterestRate + 1, type(uint96).max);
         vm.prank(owner);
-        vm.expectPartialRevert(
-            RebaseToken.RebaseToken__InterestRateCanOnlyDecrease.selector
-        );
+        vm.expectPartialRevert(RebaseToken.RebaseToken__InterestRateCanOnlyDecrease.selector);
         rebaseToken.setInterestRate(_newInterestRate);
 
         assertEq(rebaseToken.getInterestRate(), initialInterestRate);

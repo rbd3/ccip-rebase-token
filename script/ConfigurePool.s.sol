@@ -19,8 +19,7 @@ contract ConfigurePoolScript is Script {
         uint128 inboundRateLimiterRate
     ) public {
         vm.startBroadcast();
-        TokenPool.ChainUpdate[]
-            memory chainsToAdd = new TokenPool.ChainUpdate[](1);
+        TokenPool.ChainUpdate[] memory chainsToAdd = new TokenPool.ChainUpdate[](1);
         chainsToAdd[0] = TokenPool.ChainUpdate({
             remoteChainSelector: remoteChainSelector,
             allowed: true,

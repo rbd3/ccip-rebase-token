@@ -34,7 +34,7 @@ contract Vault {
             _amount = i_RebaseToken.balanceOf(msg.sender);
         }
         i_RebaseToken.burn(msg.sender, _amount);
-        (bool success, ) = payable(msg.sender).call{value: _amount}("");
+        (bool success,) = payable(msg.sender).call{value: _amount}("");
         if (!success) {
             revert Vault_RedeemFailed();
         }
